@@ -5,7 +5,9 @@ app = FastAPI()
 DATABASE_URL = os.environ.get("DATABASE_URL")
 if not DATABASE_URL:
     raise RuntimeError("DATABASE_URL environment variable is missing")
+DATABASE_URL = DATABASE_URL.replace("postgres://", "postgresql://", 1)
 engine = create_engine(DATABASE_URL)
+
 @app.get("/")
 def home():
     return{"message":"My first deployment is working"}
