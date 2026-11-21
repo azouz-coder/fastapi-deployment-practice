@@ -23,3 +23,15 @@ def db_health():
     with engine.connect() as connection:
         connection.execute(text("SELECT 1"))
     return {"database":"connected"}
+@app.post("/visits")
+def create_visit():
+    with engine.begin() as connection:
+        result = connection.execute(text("INSERT INTO visits DEFAULT VALUES RETURNING id"))
+        visit_id = result.scalar_one()
+    return {"visit_id": visit_id}
+@app.get("/visits")
+def get_visits():
+    with engine.connect() as connection:
+        result = connection.execute(text("SELECT COUNT(*) FROM visits"))
+        visit_count = result.scalar_one()
+    return {"visit_count": visit_count}
