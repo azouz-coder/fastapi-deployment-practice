@@ -7,7 +7,11 @@ if not DATABASE_URL:
     raise RuntimeError("DATABASE_URL environment variable is missing")
 DATABASE_URL = DATABASE_URL.replace("postgres://", "postgresql://", 1)
 engine = create_engine(DATABASE_URL)
-
+with engine.begin() as connection:
+    connection.execute(text("""CREATE TABLE IF NOT EXISTS visits (
+        id SERIAL PRIMARY KEY,
+        visit_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    )"""))
 @app.get("/")
 def home():
     return{"message":"My first deployment is working"}
