@@ -35,3 +35,11 @@ def get_visits():
         result = connection.execute(text("SELECT COUNT(*) FROM visits"))
         visit_count = result.scalar_one()
     return {"visit_count": visit_count}
+
+
+@app.get("/")
+def home():
+    return {
+        "message": "FastAPI is running",
+        "version": "2.0"
+    }
