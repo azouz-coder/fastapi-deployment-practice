@@ -12,9 +12,6 @@ with engine.begin() as connection:
         id SERIAL PRIMARY KEY,
         visit_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
     )"""))
-@app.get("/")
-def home():
-    return{"message":"My first deployment is working"}
 @app.get("/health")
 def health():
     return {"status":"ok"}
